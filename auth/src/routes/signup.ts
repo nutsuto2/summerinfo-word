@@ -11,7 +11,8 @@ router.post('/api/auth/signup', [
         .isEmail(),
     body('username')
         .notEmpty()
-        .isString(),
+        .isString()
+        .isLength({ min: 6 }),
     body('password')
         .notEmpty()
         .isStrongPassword({ minLength: 8, minUppercase: 1, minNumbers: 1, minSymbols: 1 })

@@ -8,4 +8,4 @@ app.use(json());
 
 app.use(SignUpRouter);
 
-export default app;
+export { app };
