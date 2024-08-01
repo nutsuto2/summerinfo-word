@@ -1,14 +1,16 @@
 import express, { Request, Response } from 'express';
 import 'express-async-errors';
 import { body } from 'express-validator';
+import jwt from 'jsonwebtoken';
 import userDb from '../db/user';
+import { generateUUID } from '../common/uuid';
 import { hashingPassword } from '../common/password';
 import { validateRequest } from '../../../common/src/middlewares/validate-request';
 import { BadRequestError } from '../../../common/src/errors/bad-request-error';
 
 const router = express.Router();
 
-router.post('/api/auth/signup', [
+router.post('/api/users/signup', [
     body('email')
         .notEmpty()
         .isEmail(),
@@ -28,23 +30,39 @@ router.post('/api/auth/signup', [
     const existingUser = userDb.public.many(`
             SELECT *
             FROM "user"
-            WHERE "email" = '${email}' OR "username" = '${username}';
+            WHERE "user"."email" = '${email}' OR "user"."username" = '${username}';
             `);
     if (existingUser.length > 0) {
         throw new BadRequestError('Email or Username is already used');
     }
 
+    // generate uuid for user record
+    const uuid = generateUUID();
+    
     // hash password
     const storedPassword = await hashingPassword(password);
 
     // insert user data too db 
-    userDb.public.many(`
-            INSERT INTO "user" ("email", "username", "password") VALUES ('${email}', '${username}', '${storedPassword}') RETURNING "id";
-        `)
+    userDb.public.one(`
+            INSERT INTO "user" ("uuid", "email", "username", "password") VALUES ('${uuid}', '${email}', '${username}', '${storedPassword}') RETURNING "uuid";
+        `);
+
+    // assign jwt to cookie session
+    const userJwt = jwt.sign(
+        {
+            email: email,
+            username: username
+        },
+        process.env.JWT_KEY!
+    );
+
+    req.session = {
+        jwt : userJwt
+    };
 
     res.status(201).send(JSON.stringify({
         email, username
     }));
 });
 
-export { router as SignUpRouter };
+export { router as signupRouter };
