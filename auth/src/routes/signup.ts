@@ -3,10 +3,9 @@ import 'express-async-errors';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import userDb from '../db/user';
-import { generateUUID } from '../common/uuid';
-import { hashingPassword } from '../common/password';
-import { validateRequest } from '../../../common/src/middlewares/validate-request';
-import { BadRequestError } from '../../../common/src/errors/bad-request-error';
+import { generateUUID } from '../services/uuid';
+import { hashingPassword } from '../services/password';
+import { validateRequest, BadRequestError } from '@summerinfo/common';
 
 const router = express.Router();
 

@@ -1,8 +1,7 @@
 import express, { Request, Response } from 'express';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import { NotFoundError } from '../../common/src/errors/not-found-error';
-import { errorHandler } from '../../common/src/middlewares/error-handler';
+import { NotFoundError, errorHandler } from '@summerinfo/common';
 
 import { signupRouter } from './routes/signup';
 import { signinRouter } from './routes/signin';

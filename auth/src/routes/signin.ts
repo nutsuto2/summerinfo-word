@@ -3,9 +3,8 @@ import 'express-async-errors';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import userDb from '../db/user';
-import { comparePassword } from '../common/password';
-import { validateRequest } from '../../../common/src/middlewares/validate-request';
-import { NotFoundError } from '../../../common/src/errors/not-found-error';
+import { comparePassword } from '../services/password';
+import { validateRequest, NotFoundError } from '@summerinfo/common';
 
 const router = express.Router();
 
