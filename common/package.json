@@ -1,13 +1,13 @@
 {
   "name": "@summerinfo/common",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
     "build/**/*"
   ],
   "scripts": {
-    "clean": "del ./build/*",
+    "clean": "del ./build/* && npm v",
     "build": "npm run clean && tsc",
     "pub": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish"
   },
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
-    "del-cli": "^5.1.0",
+    "del-cli": "^5.1.0",  
     "typescript": "^5.5.4"
   }
 }
