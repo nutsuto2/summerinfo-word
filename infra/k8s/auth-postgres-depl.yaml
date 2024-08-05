@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-postgres
+  template:
+    metadata:
+      labels:
+        app: auth-postgres
+    spec:
+      containers:
+        - name: auth-postgres
+          image: 2umm3r/auth-db
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: auth-postgres-secret
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: auth-postgresdata
+      volumes:
+        - name: auth-postgresdata
+          persistentVolumeClaim:
+            claimName: auth-postgres-volume-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-postgres-srv
+  labels:
+    app: auth-postgres
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+  selector:
+    app: auth-postgres

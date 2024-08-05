@@ -19,6 +19,14 @@
 * [X] ~~*create current user middleware*~~ [2024-08-01]
 * [X] ~~*create signout route*~~ [2024-08-01]
 * [X] ~~*create test suite for signout route*~~ [2024-08-01]
-* [ ] fix signin mock up
-* [ ]  create current-user route
-* [ ] create test suite for current-user route
+* [X] ~~*fix signin mock up*~~ [2024-08-05]
+* [X] ~~*create current-user route*~~ [2024-08-05]
+* [X] ~~*create test suite for current-user route*~~ [2024-08-05]
+* [X] ~~*publish common package for reuse purpose*~~ [2024-08-05]
+* [X] ~~*refactor code for changes from common package publishing*~~ [2024-08-05]
+* [X] ~~*add skaffold to project*~~ [2024-08-05]
+* [X] ~~*add infrastructure code*~~ [2024-08-05]
+* [ ] add postgresql to project
+* [ ] create dockerfile for auth service
+* [ ] create deployment and service for auth service
+* [ ] test auth service
