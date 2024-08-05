@@ -29,7 +29,9 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
         ) as UserPayload;
 
         req.currentUser = payload;
-    } catch (err) { }
+    } catch (err) {
+        throw new Error();
+     }
 
     next();
 }
