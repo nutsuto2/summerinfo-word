@@ -7,8 +7,9 @@
     "build/**/*"
   ],
   "scripts": {
-    "clean": "del ./build/*",
-    "build": "npm run clean && tsc && npm v",
+    "test": "rm -rf ./test/*",
+    "clean": "rm -rf ./build/*",
+    "build": "npm run clean && tsc",
     "pub": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish"
   },
   "keywords": [],
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
     "del-cli": "^5.1.0",
+    "rimraf": "^6.0.1",
     "typescript": "^5.5.4"
   }
 }
