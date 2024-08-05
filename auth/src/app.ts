@@ -7,6 +7,7 @@ import { errorHandler } from '../../common/src/middlewares/error-handler';
 import { signupRouter } from './routes/signup';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
+import { currentUserRouter } from './routes/current-user';
 
 const app = express();
 app.set('trust proxy', true);
@@ -19,6 +20,7 @@ app.use(cookieSession({
 app.use(signupRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
+app.use(currentUserRouter);
 
 app.all('*', async (req: Request, res: Response) => {
     throw new NotFoundError('Not found');
