@@ -9,7 +9,7 @@ build:
   local:
     push: false
   # artifacts:
-  #   - image: postgres
+  #   - image: 2umm3r/auth-service
   #     context: auth
   #     buildpacks:
   #       builder: gcr.io/buildpacks/builder:v1
