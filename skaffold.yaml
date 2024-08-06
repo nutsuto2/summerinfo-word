@@ -8,8 +8,8 @@ manifests:
 build:
   local:
     push: false
-  # artifacts:
-  #   - image: 2umm3r/auth-service
-  #     context: auth
-  #     buildpacks:
-  #       builder: gcr.io/buildpacks/builder:v1
+  artifacts:
+    - image: 2umm3r/summerinfo-auth
+      context: auth
+      buildpacks:
+        builder: gcr.io/buildpacks/builder:v1

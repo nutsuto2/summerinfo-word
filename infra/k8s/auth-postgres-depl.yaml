@@ -14,18 +14,24 @@ spec:
     spec:
       containers:
         - name: auth-postgres
-          image: 2umm3r/auth-db
+          image: postgres:14
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
                 name: auth-postgres-secret
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: auth-postgresdata
+              name: auth-postgres-data
+            - mountPath: /docker-entrypoint-initdb.d
+              name: auth-postgres-initdb
+              readOnly: true
       volumes:
-        - name: auth-postgresdata
+        - name: auth-postgres-data
           persistentVolumeClaim:
             claimName: auth-postgres-volume-claim
+        - name: auth-postgres-initdb
+          configMap:
+            name: auth-postgres-initdb
 ---
 apiVersion: v1
 kind: Service

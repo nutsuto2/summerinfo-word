@@ -26,7 +26,12 @@
 * [X] ~~*refactor code for changes from common package publishing*~~ [2024-08-05]
 * [X] ~~*add skaffold to project*~~ [2024-08-05]
 * [X] ~~*add infrastructure code*~~ [2024-08-05]
-* [ ] add postgresql to project
-* [ ] create dockerfile for auth service
-* [ ] create deployment and service for auth service
+* [X] ~~*add postgresql to project*~~ [2024-08-06]
+* [X] ~~*refactor code for postgresql*~~ [2024-08-06]
+* [X] ~~*create new database initialize sql*~~ [2024-08-06]
+* [ ] postgres mockup for jest
+* [X] ~~*create database connection error*~~ [2024-08-06] 
+* [X] ~~*create dockerfile for auth service*~~ [2024-08-06]
+* [X] ~~*create deployment and service for auth*~~ [2024-08-06]
+* [X] ~~*add env to auth deployment*~~ [2024-08-06]
 * [ ] test auth service

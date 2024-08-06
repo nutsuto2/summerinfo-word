@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import 'express-async-errors';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import userDb from '../db/user';
+import userDb from '../models/user';
 import { generateUUID } from '../services/uuid';
 import { hashingPassword } from '../services/password';
 import { validateRequest, BadRequestError } from '@summerinfo/common';
@@ -24,27 +24,30 @@ router.post('/api/users/signup', [
         .withMessage('must be at least 8 characters long, contains at least 1 uppercase character, contains at least 1 number, and contains at least 1 symbol character')
 ], validateRequest, async (req: Request, res: Response) => {
     const { email, username, password } = req.body;
-    
+
     // check if email and username is already exist or not
-    const existingUser = userDb.public.many(`
-            SELECT *
-            FROM "user"
-            WHERE "user"."email" = '${email}' OR "user"."username" = '${username}';
-            `);
-    if (existingUser.length > 0) {
+    const existingUser = await userDb.query({
+        text: `SELECT "email", "user", "password" FROM "user" WHERE "email" = $1 OR "username" = $2`,
+        values: [email, username],
+        rowMode: 'array'
+    });
+
+    if (existingUser.rowCount) {
         throw new BadRequestError('Email or Username is already used');
     }
 
     // generate uuid for user record
     const uuid = generateUUID();
-    
+
     // hash password
     const storedPassword = await hashingPassword(password);
 
     // insert user data too db 
-    userDb.public.one(`
-            INSERT INTO "user" ("uuid", "email", "username", "password") VALUES ('${uuid}', '${email}', '${username}', '${storedPassword}') RETURNING "uuid";
-        `);
+    await userDb.query({
+        text: 'INSERT INTO "user" ("uuid", "email", "username", "password") VALUES ($1, $2, $3, $4) RETURNING "uuid";',
+        values: [uuid, email, username, storedPassword],
+        rowMode: 'array'
+    });
 
     // assign jwt to cookie session
     const userJwt = jwt.sign(
@@ -56,7 +59,7 @@ router.post('/api/users/signup', [
     );
 
     req.session = {
-        jwt : userJwt
+        jwt: userJwt
     };
 
     res.status(201).send(JSON.stringify({
