@@ -1,18 +1,15 @@
 import crypto from 'crypto';
-import userDb from "../models/user";
-import { QueryArrayResult } from 'pg';
+import authDb from "../models/db";
 
 export const generateUUID = async () => {
     let uuid: string;
-    let existingUUID: QueryArrayResult<any[]>;
+    let existingUUID;
     do {
         uuid = crypto.randomUUID();
-        existingUUID = await userDb.query({
-            text: 'SELECT * FROM "user" WHERE uuid = $1;',
-            values: [uuid],
-            rowMode: 'array'
+        existingUUID = await authDb('users').where({
+            uuid: uuid
         });
-    } while (existingUUID.rowCount !== 0)
+    } while (existingUUID.length !== 0)
     
     return uuid;
 }

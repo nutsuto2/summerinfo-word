@@ -8,7 +8,7 @@ data:
   init.sql: |
     DROP TABLE IF EXISTS "user";
     
-    CREATE TABLE "user" (
+    CREATE TABLE "users" (
       "id" SERIAL NOT NULL PRIMARY KEY,
       "uuid" TEXT NOT NULL,
       "email" TEXT NOT NULL,

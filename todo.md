@@ -29,6 +29,7 @@
 * [X] ~~*add postgresql to project*~~ [2024-08-06]
 * [X] ~~*refactor code for postgresql*~~ [2024-08-06]
 * [X] ~~*create new database initialize sql*~~ [2024-08-06]
+* [ ] add knex to project
 * [ ] postgres mockup for jest
 * [X] ~~*create database connection error*~~ [2024-08-06] 
 * [X] ~~*create dockerfile for auth service*~~ [2024-08-06]

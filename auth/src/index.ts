@@ -1,5 +1,5 @@
 import { app } from "./app";
-import userDb from "./models/user";
+import authDb from "./models/db";
 import { DatabaseConnectionError } from "@summerinfo/common";
 
 const start = async () => {
@@ -8,15 +8,16 @@ const start = async () => {
     }
 
     if (!process.env.JWT_KEY) {
-        throw new Error('JWT_KEY not found')
+        throw new Error('JWT_KEY not found');
     }
 
-    userDb.connect((err) => {
-        if (err) {
-            throw new DatabaseConnectionError();
-        }
+    // test database connection
+    try {
+        await authDb.raw('SELECT 1 AS result');
         console.log('Db is connected');
-    });
+    } catch (err) {
+        throw new DatabaseConnectionError();
+    }
 
     const PORT = 3000;
     app.listen(PORT, () => {
