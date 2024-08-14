@@ -29,10 +29,10 @@
 * [X] ~~*add postgresql to project*~~ [2024-08-06]
 * [X] ~~*refactor code for postgresql*~~ [2024-08-06]
 * [X] ~~*create new database initialize sql*~~ [2024-08-06]
-* [ ] add knex to project
-* [ ] postgres mockup for jest
+* [X] ~~*add knex to project*~~ [2024-08-14]
+* [X] ~~*postgres in memory mockup for jest*~~ [2024-08-14]
 * [X] ~~*create database connection error*~~ [2024-08-06] 
 * [X] ~~*create dockerfile for auth service*~~ [2024-08-06]
 * [X] ~~*create deployment and service for auth*~~ [2024-08-06]
 * [X] ~~*add env to auth deployment*~~ [2024-08-06]
-* [ ] test auth service
+* [X] ~~*test auth service*~~ [2024-08-14]

@@ -1,4 +1,5 @@
 import { knex } from 'knex';
+import { config } from './db-config';
 
 export interface User {
     uuid: string;
@@ -7,17 +8,4 @@ export interface User {
     password: string;
 };
 
-const config = {
-    client: 'pg',
-    connection: {
-        host: process.env.POSTGRES_HOSTNAME,
-        port: 5432,
-        user: process.env.POSTGRES_USER,
-        database: process.env.POSTGRES_DB,
-        password: process.env.POSTGRES_PASSWORD
-    }
-}
-
-const authDb = knex(config);
-
-export default authDb;
+export default knex(config);

@@ -1,6 +1,8 @@
-import userDb from "../db/user";
+import db from "../models/db";
 import request from 'supertest';
 import { app } from "../app";
+
+jest.mock("../models/db");
 
 declare global {
     var signin: () => Promise<string[]>;
@@ -15,16 +17,22 @@ beforeAll(async () => {
     }
 
     // create database
-    userDb.public.one(`
-        CREATE TABLE "user" ("id" SERIAL NOT NULL, "uuid" text NOT NULL, "email" text NOT NULL, "username" text NOT NULL, "password" text NOT NULL, CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"));
-        `);
+    await db.schema.createTable('users', (table) => {
+        table.increments('id').primary();
+        table.string('uuid');
+        table.string('email');
+        table.string('username');
+        table.string('password');
+    });
 });
 
 beforeEach(async () => {
     // clear database
-    userDb.public.one(`
-        TRUNCATE TABLE "user";
-        `);
+    await db('users').truncate();
+})
+
+afterAll(async () => {
+    await db.destroy();
 })
 
 global.signin = async () => {
