@@ -8,38 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.currentUser = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const currentUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.currentWord = void 0;
+const currentWord = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     // check if there is jwt cookie or not
     // if (!req.session?.jwt) {
     //     return next();
     // }
-    if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.userJwt)) {
+    if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.wordJwt)) {
         return next();
     }
-    // need to get username from jwt
+    // get currentWord from jwt
     // try {
     //     const payload = jwt.verify(
     //         req.session.jwt,
-    //         process.env.JWT_KEY!
-    //     ) as UserPayload;
-    //     req.currentUser = payload;
-    // } catch (err) {
-    //     throw new Error();
-    //  }
-    try {
-        const payload = jsonwebtoken_1.default.verify(req.session.userJwt, process.env.JWT_KEY);
-        req.currentUser = payload;
-    }
-    catch (err) {
-        throw new Error();
-    }
-    next();
+    //     )
+    // }
 });
-exports.currentUser = currentUser;
+exports.currentWord = currentWord;

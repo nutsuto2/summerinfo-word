@@ -17,18 +17,21 @@ declare global {
 
 export const currentWord = async (req: Request, res: Response, next: NextFunction) => {
     // check if there is jwt cookie or not
-    // if (!req.session?.jwt) {
-    //     return next();
-    // }
-    if (!req.session?.wordJwt) {
+    if (!req.session?.word) {
         return next();
     }
 
     // get currentWord from jwt
-    // try {
-    //     const payload = jwt.verify(
-    //         req.session.jwt,
+    try {
+        const payload = jwt.verify(
+            req.session.word,
+            process.env.JWT_KEY!
+        ) as WordPayload
 
-    //     )
-    // }
+        req.currentWord = payload;
+    } catch (err) {
+        throw new Error();
+    }
+
+    next();
 }

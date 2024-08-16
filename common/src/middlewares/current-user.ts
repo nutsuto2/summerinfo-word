@@ -17,27 +17,14 @@ declare global {
 
 export const currentUser = async (req: Request, res: Response, next: NextFunction) => {
     // check if there is jwt cookie or not
-    // if (!req.session?.jwt) {
-    //     return next();
-    // }
-    if (!req.session?.userJwt) {
+    if (!req.session?.user) {
         return next();
     }
 
-    // need to get username from jwt
-    // try {
-    //     const payload = jwt.verify(
-    //         req.session.jwt,
-    //         process.env.JWT_KEY!
-    //     ) as UserPayload;
-
-    //     req.currentUser = payload;
-    // } catch (err) {
-    //     throw new Error();
-    //  }
+    // get username from jwt cookie
      try {
         const payload = jwt.verify(
-            req.session.userJwt,
+            req.session.user,
             process.env.JWT_KEY!
         ) as UserPayload;
 
