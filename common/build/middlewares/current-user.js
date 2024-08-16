@@ -17,24 +17,12 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const currentUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     // check if there is jwt cookie or not
-    // if (!req.session?.jwt) {
-    //     return next();
-    // }
-    if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.userJwt)) {
+    if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.user)) {
         return next();
     }
-    // need to get username from jwt
-    // try {
-    //     const payload = jwt.verify(
-    //         req.session.jwt,
-    //         process.env.JWT_KEY!
-    //     ) as UserPayload;
-    //     req.currentUser = payload;
-    // } catch (err) {
-    //     throw new Error();
-    //  }
+    // get username from jwt cookie
     try {
-        const payload = jsonwebtoken_1.default.verify(req.session.userJwt, process.env.JWT_KEY);
+        const payload = jsonwebtoken_1.default.verify(req.session.user, process.env.JWT_KEY);
         req.currentUser = payload;
     }
     catch (err) {
