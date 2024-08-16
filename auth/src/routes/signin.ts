@@ -43,7 +43,7 @@ router.post('/api/users/signin', [
         process.env.JWT_KEY!
     );
 
-    req.session = { jwt: userJwt };
+    req.session!.user = userJwt;
 
     res.status(200).send(JSON.stringify({
         email: existingUser[0].email,

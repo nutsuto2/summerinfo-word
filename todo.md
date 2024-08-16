@@ -36,3 +36,15 @@
 * [X] ~~*create deployment and service for auth*~~ [2024-08-06]
 * [X] ~~*add env to auth deployment*~~ [2024-08-06]
 * [X] ~~*test auth service*~~ [2024-08-14]
+* [ ] dev word-game service
+* [X] ~~*add current-word middleware*~~ [2024-08-16]
+* [X] ~~*fix current session cookies structure*~~ [2024-08-16]
+* [X] ~~*add vocabulary sub service*~~ [2024-08-16]
+* [ ] test vocabulary sub service
+* [X] ~~*create vocabulary database*~~ [2024-08-16]
+* [X] ~~*find vocabulary dictionary to add to database*~~ [2024-08-16]
+* [X] ~~*move current-word middleware from common to vocab-game and rename it to current-vocab*~~ [2024-08-16]
+* [X] ~~*add start route*~~ [2024-08-16]
+* [ ] (optional) add out of vocabulary error
+* [ ] (optional) create a data validation for database
+* [ ] add message broker

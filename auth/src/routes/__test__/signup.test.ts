@@ -77,7 +77,6 @@ it('returns a 201 and assign jwt to cookie session', async () => {
     
     const cookie = response.get('Set-Cookie');
     expect(cookie).toBeDefined();
-    // create global signin function for testing
 });
 
 it('returns a 400 when the email or username is already used', async () => {
