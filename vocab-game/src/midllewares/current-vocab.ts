@@ -1,16 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-// add property currentWord to the payload
-interface VocabPayload {
-    vocabulary: string;
-}
-
 // add property to request interface
 declare global {
     namespace Express {
         interface Request {
-            currentVocab?: VocabPayload
+            currentVocab?: string
         }
     }
 }
@@ -26,7 +21,7 @@ export const currentVocab = async (req: Request, res: Response, next: NextFuncti
         const payload = jwt.verify(
             req.session.word,
             process.env.JWT_KEY!
-        ) as VocabPayload
+        ) as string;
 
         req.currentVocab = payload;
     } catch (err) {

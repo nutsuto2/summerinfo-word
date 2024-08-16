@@ -45,6 +45,9 @@
 * [X] ~~*find vocabulary dictionary to add to database*~~ [2024-08-16]
 * [X] ~~*move current-word middleware from common to vocab-game and rename it to current-vocab*~~ [2024-08-16]
 * [X] ~~*add start route*~~ [2024-08-16]
+* [ ] add play route
+* [ ] add reward sub service
+* [ ] create is authenticated middleware
 * [ ] (optional) add out of vocabulary error
 * [ ] (optional) create a data validation for database
 * [ ] add message broker

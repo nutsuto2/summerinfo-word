@@ -17,6 +17,8 @@ router.get('/api/games/start', async (req: Request, res: Response) => {
 
     req.session!.currentVocab = vocabJwt;
 
+    // TODO: add timer countdown
+
     res.status(200).send({ firstVocabulary: firstVocabulary });
 });
 
