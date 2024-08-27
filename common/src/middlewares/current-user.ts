@@ -1,5 +1,6 @@
-import express, { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { NotAuthenticatedError } from '../errors/not-authenticated-error';
 
 // add property currentUser to Request
 interface UserPayload {
@@ -30,7 +31,7 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
 
         req.currentUser = payload;
     } catch (err) {
-        throw new Error();
+        throw new NotAuthenticatedError();
      }
 
     next();
