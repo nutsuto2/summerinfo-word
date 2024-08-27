@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
-import { currentUser } from '@summerinfo/common';
+import { authAndUser } from '@summerinfo/common';
 
 const router = express.Router();
 
-router.get('/api/users/current-user', currentUser, (req: Request, res: Response) => {
-    const currentUser = req.currentUser || null;
+router.get('/api/users/current-user', authAndUser, (req: Request, res: Response) => {
+    const currentUser = req.currentUser;
     res.send({ currentUser: currentUser  });
 });
 

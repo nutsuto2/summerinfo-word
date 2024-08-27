@@ -2,9 +2,9 @@ import express, { Request, Response } from 'express';
 import 'express-async-errors';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import authDb, { User } from '../models/db';
-import { comparePassword } from '../services/password';
-import { validateRequest, NotFoundError } from '@summerinfo/common';
+import { User } from '../models/user';
+import { Password } from '../utils/password';
+import { validateRequest, AuthenticationError } from '@summerinfo/common';
 
 const router = express.Router();
 
@@ -20,24 +20,20 @@ router.post('/api/users/signin', [
 ], validateRequest, async (req: Request, res: Response) => {
     const { username, password } = req.body;
 
-    const existingUser = await authDb<User>('users').where({
-        username: username
-    });
-
-    if (existingUser.length === 0) {
-        throw new NotFoundError('Username or Password is incorrect');
+    const existingUser = await User.findOne({ username });
+    if (!existingUser) {
+        throw new AuthenticationError();
     }
 
     // compare password with stored password
-    const storedPassword = existingUser[0].password;
-    const match = await comparePassword(password, storedPassword)
-    if (!match) {
-        throw new NotFoundError('Username or Password is incorrect');
+    const passwordsMatch = await Password.comparePassword(password, existingUser.password);
+    if (!passwordsMatch) {
+        throw new AuthenticationError();
     }
 
     // assign jwt to cookie session
     const userJwt = jwt.sign({
-        email: existingUser[0].email,
+        email: existingUser.email,
         username: username
     },
         process.env.JWT_KEY!
@@ -46,7 +42,7 @@ router.post('/api/users/signin', [
     req.session!.user = userJwt;
 
     res.status(200).send(JSON.stringify({
-        email: existingUser[0].email,
+        email: existingUser.email,
         username: username
     }));
 });

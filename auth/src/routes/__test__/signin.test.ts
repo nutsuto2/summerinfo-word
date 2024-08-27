@@ -10,7 +10,7 @@ it('returns 403 when user do not enter username', async () => {
         .expect(403);
 });
 
-it('returns 404 when user provide wrong username', async () => {
+it('returns 401 when user provide wrong username', async () => {
     const email = "test@test.com";
     const username = "tester";
     const password = "Test1234@";
@@ -28,7 +28,7 @@ it('returns 404 when user provide wrong username', async () => {
             username: 'testtt',
             password: password
         })
-        .expect(404);
+        .expect(401);
 });
 
 it('returns 403 when user do not enter password', async () => {
@@ -40,7 +40,7 @@ it('returns 403 when user do not enter password', async () => {
         .expect(403);
 });
 
-it('returns 404 when user provide wrong password', async () => {
+it('returns 401 when user provide wrong password', async () => {
     const email = "test@test.com";
     const username = "tester";
     const password = "Test1234@";
@@ -58,7 +58,7 @@ it('returns 404 when user provide wrong password', async () => {
             username: username,
             password: 'Test1234'
         })
-        .expect(404);
+        .expect(401);
 });
 
 it('returns 200 and assign jwt cookie session', async () => {

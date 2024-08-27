@@ -6,7 +6,7 @@ it('returns null if user is not signed-in', async () => {
                         .get('/api/users/current-user')
                         .send({});
     
-    expect(response.body.currentUser).toBeNull();
+    expect(response.body.currentUser).toBeUndefined();
 });
 
 it('returns current-user if user is signed-in', async () => {

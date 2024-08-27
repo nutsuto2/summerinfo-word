@@ -1,37 +1,36 @@
-import db from "../models/db";
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-
-jest.mock("../models/db");
 
 declare global {
     var signin: () => Promise<string[]>;
 }
 
+let mongo: any;
 beforeAll(async () => {
-    // assign mock JWT_KEY for testing
-    const originalEnv = process.env;
-    process.env = {
-        ...originalEnv,
-        JWT_KEY: "jwt_key"
-    }
+    process.env.JWT_KEY = "JWT_KEY";
 
     // create database
-    await db.schema.createTable('users', (table) => {
-        table.increments('id').primary();
-        table.string('uuid');
-        table.string('email');
-        table.string('username');
-        table.string('password');
-    });
+    mongo = await MongoMemoryServer.create();
+    const mongoUri = mongo.getUri();
+  
+    await mongoose.connect(mongoUri, {});
 });
 
 beforeEach(async () => {
     // clear database
-    await db('users').truncate();
+    const collections = await mongoose.connection.db?.collections();
+
+    for (let collection of collections!) {
+        await collection.deleteMany({});
+    }
 })
 
 afterAll(async () => {
-    await db.destroy();
+    if (mongo) {
+        await mongo.stop();
+      }
+      await mongoose.connection.close();
 })
 
 global.signin = async () => {

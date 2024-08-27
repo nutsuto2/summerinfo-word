@@ -46,9 +46,14 @@
 * [X] ~~*move current-word middleware from common to vocab-game and rename it to current-vocab*~~ [2024-08-16]
 * [X] ~~*add start route*~~ [2024-08-16]
 * [ ] change from postgreql to mongodb
+    * [X] ~~*auth service*~~ [2024-08-27]
+    * [X] ~~*game service*~~ [2024-08-27]
+* [X] ~~*add mechanism to keep track of used vocabularies*~~ [2024-08-27]
+    * [X] ~~*add used vocabularies middleware*~~ [2024-08-27]
+* [X] ~~*add mock up for starting game*~~ [2024-08-27]
+* [ ] create is authenticated middleware
 * [ ] add play route
 * [ ] add reward sub service
-* [ ] create is authenticated middleware
 * [ ] (optional) add out of vocabulary error
 * [ ] add message broker
 * [ ] add readiness probe to do healt check 1) http for service and 2) tcp for db

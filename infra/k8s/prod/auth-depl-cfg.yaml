@@ -1,0 +1,9 @@
+apiVersion: v1 
+kind: ConfigMap
+metadata:
+  name: auth-secret 
+  labels:
+    app: auth
+data:
+  MONGO_URI: auth-postgres-srv.default.svc.cluster.local
+  JWT_KEY: 5854bd9a65710edd5b9ba2f161de0c30

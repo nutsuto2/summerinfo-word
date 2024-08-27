@@ -2,9 +2,7 @@ import express, { Request, Response } from 'express';
 import 'express-async-errors';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import authDb from '../models/db';
-import { generateUUID } from '../services/uuid';
-import { hashingPassword } from '../services/password';
+import { User } from '../models/user';
 import { validateRequest, BadRequestError } from '@summerinfo/common';
 
 const router = express.Router();
@@ -26,27 +24,17 @@ router.post('/api/users/signup', [
     const { email, username, password } = req.body;
 
     // check if email and username is already exist or not
-    const existingUser = await authDb('users').where({
-        email: email,
-        username: username
-    });
-    if (existingUser.length != 0) {
-        throw new BadRequestError('Email or Username is already used');
+    const existingUser = await User.findOne({ email, username });
+
+    if (existingUser) {
+        throw new BadRequestError('Email or password is in use');
     }
 
-    // generate uuid for user record
-    const uuid = await generateUUID();
-
-    // hash password
-    const storedPassword = await hashingPassword(password);
-
     // insert user data too db 
-    await authDb('users').insert({
-        uuid: uuid,
-        email: email,
-        username: username,
-        password: storedPassword
+    const user = User.build({
+        email, username, password
     });
+    await user.save();
 
     // assign jwt to cookie session
     const userJwt = jwt.sign(

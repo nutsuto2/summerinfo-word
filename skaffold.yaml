@@ -4,7 +4,7 @@ metadata:
   name: summerinfo-word
 manifests:
   rawYaml:
-    - infra/k8s/**.yaml
+    - infra/k8s/dev/**.yaml
 build:
   local:
     push: false

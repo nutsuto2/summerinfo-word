@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-import { currentUser } from '@summerinfo/common';
+import { authAndUser } from '@summerinfo/common';
 
 const router = express.Router();
 
-router.post('/api/users/signout', currentUser, async (req: Request, res: Response) => {
+router.post('/api/users/signout', authAndUser, async (req: Request, res: Response) => {
     // remove jwt
     req.session = null;
 

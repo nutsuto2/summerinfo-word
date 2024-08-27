@@ -11,7 +11,7 @@ Play a vocabulary game to earn currency and collectible items, trade, or buy col
 - signout
 - current-user
 #### Databases
-1. Users
+1. User
     - Schemas
         - id: ObjectId
         - email: string
@@ -28,14 +28,14 @@ Play a vocabulary game to earn currency and collectible items, trade, or buy col
 - play
 - end
 #### Databases
-1. Vocabularies
+1. Vocabulary
     - Schemas
         - id: ObjectId
         - vocabulary: string
         - firstAlphabet: string
         - isUsed: boolean
 #### Utils
-- vocabulary
+- game
 - reward
 #### Events
 1. start
@@ -49,7 +49,7 @@ Play a vocabulary game to earn currency and collectible items, trade, or buy col
 - update-inventory
 - assign-item
 #### Databases
-1. Items
+1. Item
     - Schemas
         - id: ObjectId
         - name: string
@@ -60,7 +60,7 @@ Play a vocabulary game to earn currency and collectible items, trade, or buy col
             url: string,
             altText: string
         }
-2. Players
+2. Player
     - Schemas
         - userId: ObjectId
         - username: string
@@ -82,7 +82,7 @@ Play a vocabulary game to earn currency and collectible items, trade, or buy col
 - update
 - delete
 #### Databases
-1. Offers
+1. Offer
     - Schemas
         - userId: ObjectId
         - status: string
@@ -109,7 +109,7 @@ Play a vocabulary game to earn currency and collectible items, trade, or buy col
 #### Routes
 - create
 #### Databases
-1. Payments
+1. Payment
     - Schemas
         - offerId: ObjectId
         - transactionId: ObjectId
