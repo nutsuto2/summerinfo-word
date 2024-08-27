@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.currentUser = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const not_authenticated_error_1 = require("../errors/not-authenticated-error");
 const currentUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     // check if there is jwt cookie or not
@@ -26,7 +27,7 @@ const currentUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         req.currentUser = payload;
     }
     catch (err) {
-        throw new Error();
+        throw new not_authenticated_error_1.NotAuthenticatedError();
     }
     next();
 });

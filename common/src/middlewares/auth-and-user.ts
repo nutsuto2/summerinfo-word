@@ -16,10 +16,10 @@ declare global {
     }
 }
 
-export const currentUser = async (req: Request, res: Response, next: NextFunction) => {
+export const authAndUser = async (req: Request, res: Response, next: NextFunction) => {
     // check if there is jwt cookie or not
     if (!req.session?.user) {
-        return next();
+        throw new NotAuthenticatedError();
     }
 
     // get username from jwt cookie
@@ -31,7 +31,7 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
 
         req.currentUser = payload;
     } catch (err) {
-        throw new NotAuthenticatedError();
+        throw new Error();
      }
 
     next();
