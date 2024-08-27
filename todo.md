@@ -51,9 +51,10 @@
 * [X] ~~*add mechanism to keep track of used vocabularies*~~ [2024-08-27]
     * [X] ~~*add used vocabularies middleware*~~ [2024-08-27]
 * [X] ~~*add mock up for starting game*~~ [2024-08-27]
-* [ ] create is authenticated middleware
-* [ ] add play route
-* [ ] add reward sub service
+* [X] ~~*create is authenticated middleware*~~ [2024-08-27]
+* [X] ~~*add play route*~~ [2024-08-27]
+* [ ] create k8s manifests for game service
+* [ ] add reward utils
 * [ ] (optional) add out of vocabulary error
 * [ ] add message broker
 * [ ] add readiness probe to do healt check 1) http for service and 2) tcp for db

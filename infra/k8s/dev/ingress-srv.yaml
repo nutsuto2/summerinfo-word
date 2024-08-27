@@ -17,3 +17,10 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
+          - path: /api/game/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: game-service
+                port:
+                  number: 3000

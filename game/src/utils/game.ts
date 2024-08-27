@@ -1,4 +1,5 @@
 import { Vocabulary, VocabDoc } from '../models/vocabulary';
+import { playerType, usedVocabAttrs } from '../types/interfaces';
 
 export class Game {
     private static getRandomVocabulary(vocabularyArray: VocabDoc[]) {
@@ -56,6 +57,17 @@ export class Game {
             return true
         }
         return false;
+    }
+
+    static async getNumberofPlay(usedVocabularies: Array<usedVocabAttrs>) {
+        let numberofPlay = 0;
+        usedVocabularies.forEach((attrs) => {
+            if (attrs.usedBy === playerType.PLAYER) {
+                numberofPlay += 1;
+            }
+        });
+
+        return numberofPlay;
     }
 
 }

@@ -12,7 +12,6 @@ import { authAndUser } from '@summerinfo/common';
 
 const router = express.Router();
 
-// TODO: add isAuthenticated when it's finished
 router.post('/api/game/play', authAndUser,
     [
         body('connectingVocabulary')
@@ -63,6 +62,14 @@ router.post('/api/game/play', authAndUser,
                 process.env.JWT_KEY!
             );
             req.session!.usedVocab = usedVocabJwt;
+
+            // check if the game is completed or not
+            const numberofPlay = await Game.getNumberofPlay(req.usedVocab);
+            if (numberofPlay == 5) {
+                // TODO: add mechanism to complete the game
+                console.log('The game is finished');
+                res.status(200).send('The game is completed');
+            }
 
             // find new vocabulary
             usedVocabularies.push(connectingVocabulary);
