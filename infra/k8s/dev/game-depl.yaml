@@ -17,7 +17,7 @@ spec:
           image: 2umm3r/summerinfo-game
           env:
             - name: MONGO_URI
-              value : 'game-postgres-srv.default.svc.cluster.local'
+              value : 'mongodb://game-mongo-srv:27017/game'
             - name: JWT_KEY
               value: 5854bd9a65710edd5b9ba2f161de0c30
 ---

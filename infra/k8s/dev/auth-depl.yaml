@@ -17,7 +17,7 @@ spec:
           image: 2umm3r/summerinfo-auth
           env:
             - name: MONGO_URI
-              value : 'auth-postgres-srv.default.svc.cluster.local'
+              value : 'mongodb://auth-mongo-srv:27017/auth'
             - name: JWT_KEY
               value: 5854bd9a65710edd5b9ba2f161de0c30
 ---

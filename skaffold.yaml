@@ -11,5 +11,17 @@ build:
   artifacts:
     - image: 2umm3r/summerinfo-auth
       context: auth
-      buildpacks:
-        builder: gcr.io/buildpacks/builder:v1
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: 2umm3r/summerinfo-game
+      context: game
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
