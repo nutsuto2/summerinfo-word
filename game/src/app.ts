@@ -6,6 +6,7 @@ import { NotFoundError, errorHandler } from '@summerinfo/common';
 import { startRouter } from './routes/start';
 import { playRouter } from './routes/play';
 import { endRouter } from './routes/end';
+import { healthRouter } from './routes/health';
 
 const app = express();
 app.set('trust proxy', true);
@@ -18,6 +19,7 @@ app.use(cookieSession({
 app.use(startRouter);
 app.use(playRouter);
 app.use(endRouter);
+app.use(healthRouter);
 
 app.all('*', async () => {
     throw new NotFoundError('Not found');

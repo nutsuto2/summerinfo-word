@@ -14,13 +14,13 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: auth-srv
+                name: auth-svc
                 port:
                   number: 3000
           - path: /api/game/?(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: game-service
+                name: game-svc
                 port:
                   number: 3000

@@ -53,8 +53,9 @@
 * [X] ~~*add mock up for starting game*~~ [2024-08-27]
 * [X] ~~*create is authenticated middleware*~~ [2024-08-27]
 * [X] ~~*add play route*~~ [2024-08-27]
-* [ ] create k8s manifests for game service
+* [X] ~~*create k8s manifests for game service*~~ [2024-08-28]
 * [ ] add reward utils
 * [ ] (optional) add out of vocabulary error
 * [ ] add message broker
 * [ ] add readiness probe to do healt check 1) http for service and 2) tcp for db
+* [ ] for dictionary will eventually have to create a volume and store it their so that we don't have to duplicate it every time we create a new pod
