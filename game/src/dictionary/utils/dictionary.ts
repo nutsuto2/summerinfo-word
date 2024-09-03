@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Vocabulary } from '../../models/vocabulary';
+import { InitializeError } from '../../errors/initialize-error';
 
 export class Dictionary {
     private static dataPath = path.join(__dirname, '../data');
@@ -27,7 +28,7 @@ export class Dictionary {
                 });
             });
         } catch (err) {
-            throw new Error('Error reading directory');
+            throw new InitializeError('Error reading dictionary directory.');
         }
     }
 }

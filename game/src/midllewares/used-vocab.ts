@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { User } from '../models/user';
 import { usedVocabAttrs } from '../types/interfaces';
-
-interface UsedVocabPayload {
-    usedVocabularies: Array<usedVocabAttrs>;
-}
+import { NotAuthenticatedError } from '@summerinfo/common';
+import { GameError, gameErrors } from '../errors/game-error';
 
 declare global {
     namespace Express {
@@ -15,22 +13,23 @@ declare global {
 }
 
 export const UsedVocab = async (req: Request, res: Response, next: NextFunction) => {
-    // check if there is jwt cookie or not
-    if (!req.session?.usedVocab) {
-        return next();
+    // check if the user is signed-in or not
+    if (!req.currentUser) {
+        throw new NotAuthenticatedError();
     }
 
-    // get usedVocabularies from jwt
-    try {
-        const payload = jwt.verify(
-            req.session.usedVocab,
-            process.env.JWT_KEY!
-        ) as UsedVocabPayload;
+    const user = await User.findOne({ username: req.currentUser.username });
+    if (!user) {
+        next();
+    }
 
-        req.usedVocab = payload.usedVocabularies;
+    // get usedVocabularies from user
+    try {
+        const payload = user!.usedVocabularies;
+
+        req.usedVocab = payload;
     } catch (err) {
-        console.log('UsedVocab', 'Catch statement', !req.session!.usedVocab);
-        throw new Error(JSON.stringify(err));
+        throw new GameError(500, gameErrors.USER_NOT_FOUND);
     }
 
     next();

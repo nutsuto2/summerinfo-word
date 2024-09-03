@@ -36,6 +36,7 @@ Play a vocabulary game to earn currency and collectible items, trade, or buy col
         - isUsed: boolean
 #### Utils
 - game
+- timer
 - reward
 #### Events
 1. start

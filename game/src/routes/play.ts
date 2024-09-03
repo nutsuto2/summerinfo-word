@@ -4,15 +4,17 @@ import { body } from 'express-validator';
 import { Game } from '../utils/game';
 import { currentVocab } from '../midllewares/current-vocab';
 import { UsedVocab } from '../midllewares/used-vocab';
-import { BadRequestError, validateRequest } from '@summerinfo/common';
-import jwt from 'jsonwebtoken';
+import { CustomError, RequestValidationError, validateRequest } from '@summerinfo/common';
 import { playerType } from '../types/interfaces';
-import { Vocabulary } from '../models/vocabulary';
+import { VocabDoc, Vocabulary } from '../models/vocabulary';
 import { authAndUser } from '@summerinfo/common';
+import { userTimers } from '../utils/timer';
+import { User } from '../models/user';
+import { GameError, gameErrors } from '../errors/game-error';
 
 const router = express.Router();
 
-router.post('/api/game/play', authAndUser,
+router.post('/api/game/play',
     [
         body('connectingVocabulary')
             .isString()
@@ -21,85 +23,87 @@ router.post('/api/game/play', authAndUser,
             .notEmpty()
     ],
     validateRequest,
-    currentVocab, UsedVocab,
+    authAndUser, currentVocab, UsedVocab,
     async (req: Request, res: Response) => {
         // get connecting vocabulary
         const { connectingVocabulary } = req.body;
 
-        if (!req.currentVocab) {
-            throw new BadRequestError('No current vocabulary');
+        // check if there is user data or not
+        const username = req.currentUser!.username;
+        const user = await User.findOne({ username: username });
+        if (!user) {
+            throw new GameError(400, gameErrors.NOT_START);
         }
+        const currentVocabulary = user.currentVocabulary;
+        const usedVocabularies = user.usedVocabularies.map((attrs) => attrs.vocabulary);
 
-        if (!req.usedVocab) {
-            throw new BadRequestError('No used vocabularies');
+        // check if connectingVocabulary is in database or not
+        const vocabulary = await Vocabulary.findOne({ vocabulary: connectingVocabulary });
+        if (!vocabulary) {
+            throw new GameError(400, gameErrors.VOCAB_NOT_FOUND);
         }
-
-        const usedVocabularies: string[] = [];
-        req.usedVocab.forEach((attrs) => {
-            usedVocabularies.push(attrs.vocabulary);
-        });
 
         // check if use duplicated vocabulary or not
         const isDuplicated = await Game.duplicationCheck(connectingVocabulary, usedVocabularies);
 
         if (isDuplicated) {
-            throw new BadRequestError('Can not use used vocaulary');
+            throw new GameError(400, gameErrors.ALREADY_USED)
         }
 
         // compare connecting vocabulary with current vocabulary
-        const isUseable = await Game.compareVocabulary(connectingVocabulary, req.currentVocab);
+        const isUseable = await Game.compareVocabulary(connectingVocabulary, currentVocabulary);
 
+        // check if timer object existed
+        if (!userTimers.has(username)) {
+            throw new GameError(500, gameErrors.NO_TIMER);
+        }
+        const timer = userTimers.get(username);
+
+        let newVocabulary: VocabDoc;
         if (isUseable) {
-            // add vocab to usedVocab
-            const updatedUsedVocabularies = req.usedVocab;
-            updatedUsedVocabularies.push({
-                vocabulary: connectingVocabulary,
-                usedBy: playerType.PLAYER
-            });
-            const usedVocabJwt = jwt.sign({
-                usedVocabularies: updatedUsedVocabularies
-            },
-                process.env.JWT_KEY!
-            );
-            req.session!.usedVocab = usedVocabJwt;
-
             // check if the game is completed or not
-            const numberofPlay = await Game.getNumberofPlay(req.usedVocab);
+            const numberofPlay = await Game.getNumberofPlay(user.usedVocabularies);
             if (numberofPlay == 5) {
-                // TODO: add mechanism to complete the game
-                console.log('The game is finished');
-                res.status(200).send('The game is completed');
+                timer!.onTimeout(true);
+                userTimers.delete(username);
+                return res.status(200).send('The game is completed');
             }
 
             // find new vocabulary
             usedVocabularies.push(connectingVocabulary);
-            const newVocabulary = Game.findVocabulary(connectingVocabulary, usedVocabularies);
-            const vocabJwt = jwt.sign({
-                vocabulary: newVocabulary
-            },
-                process.env.JWT_KEY!
-            );
-            req.session!.currentVocab = vocabJwt;
+            newVocabulary = await Game.findVocabulary(connectingVocabulary, usedVocabularies);
 
-            // update isUsed
-            await Vocabulary.findOneAndUpdate({
-                vocabulary: connectingVocabulary
-            },
+            // add vocab to usedVocab
+            const updatedUsedVocabularies = user.usedVocabularies;
+            updatedUsedVocabularies.push({
+                vocabulary: connectingVocabulary,
+                usedBy: playerType.PLAYER
+            });
+            updatedUsedVocabularies.push({
+                vocabulary: newVocabulary.vocabulary,
+                usedBy: playerType.CPU
+            });
 
-                {
-                    $set: {
-                        isUsed: true
-                    }
-                });
+            // update user data
+            await user.updateOne({
+                currentVocabulary: newVocabulary.vocabulary,
+                usedVocabularies: updatedUsedVocabularies
+            });
+
+            // reset timer
+            timer!.resetTimer(false);
+            // console.log('reset timer when user play');
+
         } else {
-            throw new BadRequestError('Vocabulary can not be used to connect');
+
+            // reduce timer
+            timer!.resetTimer(true);
+            // console.log('reduce timer when user failed to play');
+
+            throw new GameError(400, gameErrors.UN_USEABLE);
         }
 
-        // TODO: reset timer
-
-        // TODO: publis event
-
-        res.status(200).send({ currentVocabulary: connectingVocabulary });
+        res.status(200).send({ connectingVocabulary: connectingVocabulary, isUseable, currentVocabulary: newVocabulary.vocabulary });
     });
 
 export { router as playRouter };

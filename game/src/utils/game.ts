@@ -1,5 +1,6 @@
 import { Vocabulary, VocabDoc } from '../models/vocabulary';
 import { playerType, usedVocabAttrs } from '../types/interfaces';
+import { GameError, gameErrors } from '../errors/game-error';
 
 export class Game {
     private static getRandomVocabulary(vocabularyArray: VocabDoc[]) {
@@ -14,14 +15,14 @@ export class Game {
         });
 
         if (response.length == 0) {
-            throw new Error('Ran out of vocabulary');
+            throw new GameError(500, gameErrors.OUT_OF_VOCAB);
         }
 
         // randomly select vocabulary
         const firstVocabulary = this.getRandomVocabulary(response);
 
         // update the vocabulary isUsed to true
-        firstVocabulary.updateOne({
+        await firstVocabulary.updateOne({
             isUsed: true
         });
 
@@ -32,11 +33,11 @@ export class Game {
         // query vocabulary that is not used in the game session and can be used to connect
         const response = await Vocabulary.find({
             vocabulary: { $nin: usedVocabularies },
-            firstLetter: connectingVocabulary[connectingVocabulary.length-1]
+            firstLetter: connectingVocabulary[connectingVocabulary.length - 1]
         })
 
         if (response.length == 0) {
-            throw new Error('Ran out of vocabulary');
+            throw new GameError(500, gameErrors.OUT_OF_VOCAB);
         }
 
         // randomly select vocabulary
@@ -46,7 +47,7 @@ export class Game {
     }
 
     static async compareVocabulary(connectingVocabulary: string, currentVocabulary: string) {
-        if (currentVocabulary[currentVocabulary.length-1] === connectingVocabulary[0]) {
+        if (currentVocabulary[currentVocabulary.length - 1] === connectingVocabulary[0]) {
             return true;
         }
         return false;

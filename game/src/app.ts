@@ -1,4 +1,5 @@
 import express from 'express';
+import 'express-async-errors';
 import { json } from 'body-parser'
 import cookieSession from 'cookie-session';
 import { NotFoundError, errorHandler } from '@summerinfo/common';
@@ -6,6 +7,8 @@ import { NotFoundError, errorHandler } from '@summerinfo/common';
 import { startRouter } from './routes/start';
 import { playRouter } from './routes/play';
 import { endRouter } from './routes/end';
+import { currentVocabularyRouter } from './routes/current-vocab';
+import { usedVocabulariesRouter } from './routes/used-vocab';
 import { healthRouter } from './routes/health';
 
 const app = express();
@@ -19,6 +22,8 @@ app.use(cookieSession({
 app.use(startRouter);
 app.use(playRouter);
 app.use(endRouter);
+app.use(currentVocabularyRouter);
+app.use(usedVocabulariesRouter);
 app.use(healthRouter);
 
 app.all('*', async () => {

@@ -5,7 +5,7 @@ it('returns 401 when the user is not sign in', async () => {
     await request(app)
         .post('/api/game/play')
         .send({
-            connectingVocabulary: 'dasdpdkpk'
+            connectingVocabulary: 'dasdp'
         })
         .expect(401);
 });

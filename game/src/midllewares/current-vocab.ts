@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-
-interface currentVocabPayload {
-    vocabulary: string
-}
+import { User } from '../models/user';
+import { NotAuthenticatedError } from '@summerinfo/common';
+import { GameError, gameErrors } from '../errors/game-error';
 
 // add property to request interface
 declare global {
@@ -15,21 +13,23 @@ declare global {
 }
 
 export const currentVocab = async (req: Request, res: Response, next: NextFunction) => {
-    // check if there is jwt cookie or not
-    if (!req.session?.currentVocab) {
-        return next();
+    // check if the user is signed-in or not
+    if (!req.currentUser) {
+        throw new NotAuthenticatedError();
     }
 
-    // get currentWord from jwt
-    try {
-        const payload = jwt.verify(
-            req.session.currentVocab,
-            process.env.JWT_KEY!
-        ) as currentVocabPayload;
+    const user = await User.findOne({ username: req.currentUser.username });
+    if (!user) {
+        next();
+    }
 
-        req.currentVocab = payload.vocabulary;
+    // get currentWord from user
+    try {
+        const payload = user!.currentVocabulary;
+
+        req.currentVocab = payload;
     } catch (err) {
-        throw new Error();
+        throw new GameError(500, gameErrors.USER_NOT_FOUND);
     }
 
     next();

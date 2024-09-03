@@ -1,19 +1,18 @@
 import request from 'supertest';
 import { app } from '../../app';
 
-it('returns 401 when the user is not sign in', async () => {
+it('returns current vocabularies', async () => {
     await request(app)
-        .get('/api/game/start')
-        .send({})
-        .expect(401);
-});
-
-it('returns firstVocabulary when start the game', async () => {
-    const response = await request(app)
         .get('/api/game/start')
         .send({})
         .set('Cookie', await global.signin())
         .expect(200);
 
-    expect(response.body.firstVocabulary).toBeDefined();
+    const response = await request(app)
+        .get('/api/game/current-vocabulary')
+        .send({})
+        .set('Cookie', await global.signin())
+        .expect(200);
+    
+    expect(response.body.currentVocabulary).toBeDefined();
 });

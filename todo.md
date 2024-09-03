@@ -40,7 +40,7 @@
 * [X] ~~*add current-word middleware*~~ [2024-08-16]
 * [X] ~~*fix current session cookies structure*~~ [2024-08-16]
 * [X] ~~*add vocabulary sub service*~~ [2024-08-16]
-* [ ] test vocabulary sub service
+* [X] ~~*test vocabulary utils*~~ [2024-08-28]
 * [X] ~~*create vocabulary database*~~ [2024-08-16]
 * [X] ~~*find vocabulary dictionary to add to database*~~ [2024-08-16]
 * [X] ~~*move current-word middleware from common to vocab-game and rename it to current-vocab*~~ [2024-08-16]
@@ -54,8 +54,21 @@
 * [X] ~~*create is authenticated middleware*~~ [2024-08-27]
 * [X] ~~*add play route*~~ [2024-08-27]
 * [X] ~~*create k8s manifests for game service*~~ [2024-08-28]
-* [ ] add reward utils
-* [ ] (optional) add out of vocabulary error
+* [X] ~~*add initialize database of game service*~~ [2024-08-28]
+* [X] ~~*change mechanism to keep track of user current vocabulry and used vocabularies from cookies to database*~~ [2024-09-02]
+* [X] ~~*add timer for game service*~~ [2024-09-03]
+    * [X] ~~*create timer class*~~ [2024-09-02]
+    * [X] ~~*when game start initiate timer object to that user*~~ [2024-09-02]
+    * [X] ~~*reset when that user play*~~ [2024-09-02]
+    * [X] ~~*stop when the game is ended*~~ [2024-09-02]
+    * [X] ~~*create reduce timer*~~ [2024-09-02]
+    * [X] ~~*create onTimeout*~~ [2024-09-03]
+* [ ] create error handler to handle game error
+* [ ] create a middleware to handle when the vocabulary can not be used to connect
+* [X] ~~*create a database to collect user that is already played in that day*~~ [2024-09-03]
+    * [ ] clear database when the timer hit 00:00:00 UTC
+* [X] ~~*add reward utils*~~ [2024-09-03]
+* [ ] create client
 * [ ] add message broker
-* [ ] add readiness probe to do healt check 1) http for service and 2) tcp for db
-* [ ] for dictionary will eventually have to create a volume and store it their so that we don't have to duplicate it every time we create a new pod
+* [X] ~~*add readiness probe to do healt check 1) http for service and 2) tcp for db*~~ [2024-08-28]
+* [ ] create a volume to store dictionary data
