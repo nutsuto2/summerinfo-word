@@ -7,7 +7,7 @@ export enum gameErrors {
     NOT_START = 'The game is not started yet.',
     OUT_OF_VOCAB = 'Database ran out of vocabulary.',
     UN_USEABLE = 'Vocabulary can not be used to connect.',
-    USER_NOT_FOUND = 'No user data.',
+    USER_DATA_NOT_FOUND = 'No user data.',
     VOCAB_NOT_FOUND = 'Vocabulary is not in database.',
 }
 
@@ -20,7 +20,7 @@ export class GameError extends CustomError {
         this.statusCode = statusCode;
         this.message = message;
 
-        Object.setPrototypeOf(this, GameError);
+        Object.setPrototypeOf(this, GameError.prototype);
     }
 
     serializeErrors() {

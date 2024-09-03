@@ -6,7 +6,6 @@ import { NotFoundError, errorHandler } from '@summerinfo/common';
 
 import { startRouter } from './routes/start';
 import { playRouter } from './routes/play';
-import { endRouter } from './routes/end';
 import { currentVocabularyRouter } from './routes/current-vocab';
 import { usedVocabulariesRouter } from './routes/used-vocab';
 import { healthRouter } from './routes/health';
@@ -21,13 +20,12 @@ app.use(cookieSession({
 
 app.use(startRouter);
 app.use(playRouter);
-app.use(endRouter);
 app.use(currentVocabularyRouter);
 app.use(usedVocabulariesRouter);
 app.use(healthRouter);
 
 app.all('*', async () => {
-    throw new NotFoundError('Not found');
+    throw new NotFoundError('Path not found.');
 })
 
 app.use(errorHandler);

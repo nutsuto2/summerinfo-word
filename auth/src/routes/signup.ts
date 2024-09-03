@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import 'express-async-errors';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
@@ -27,7 +26,7 @@ router.post('/api/users/signup', [
     const existingUser = await User.findOne({ email, username });
 
     if (existingUser) {
-        throw new BadRequestError('Email or password is in use');
+        throw new BadRequestError('Email or password is already in use.');
     }
 
     // insert user data too db 

@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import 'express-async-errors';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user';

@@ -63,8 +63,7 @@
     * [X] ~~*stop when the game is ended*~~ [2024-09-02]
     * [X] ~~*create reduce timer*~~ [2024-09-02]
     * [X] ~~*create onTimeout*~~ [2024-09-03]
-* [ ] create error handler to handle game error
-* [ ] create a middleware to handle when the vocabulary can not be used to connect
+* [X] ~~*create error handler to handle game error*~~ [2024-09-03]
 * [X] ~~*create a database to collect user that is already played in that day*~~ [2024-09-03]
     * [ ] clear database when the timer hit 00:00:00 UTC
 * [X] ~~*add reward utils*~~ [2024-09-03]

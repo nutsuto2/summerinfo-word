@@ -29,7 +29,7 @@ export const UsedVocab = async (req: Request, res: Response, next: NextFunction)
 
         req.usedVocab = payload;
     } catch (err) {
-        throw new GameError(500, gameErrors.USER_NOT_FOUND);
+        throw new GameError(500, gameErrors.USER_DATA_NOT_FOUND);
     }
 
     next();

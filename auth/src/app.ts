@@ -25,7 +25,7 @@ app.use(currentUserRouter);
 app.use(healthRouter);
 
 app.all('*', async (req: Request, res: Response) => {
-    throw new NotFoundError('Not found');
+    throw new NotFoundError('Path not found.');
 });
 
 app.use(errorHandler);

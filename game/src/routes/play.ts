@@ -1,10 +1,9 @@
 import express, { Request, Response } from 'express';
-import 'express-async-errors';
 import { body } from 'express-validator';
 import { Game } from '../utils/game';
 import { currentVocab } from '../midllewares/current-vocab';
 import { UsedVocab } from '../midllewares/used-vocab';
-import { CustomError, RequestValidationError, validateRequest } from '@summerinfo/common';
+import { validateRequest } from '@summerinfo/common';
 import { playerType } from '../types/interfaces';
 import { VocabDoc, Vocabulary } from '../models/vocabulary';
 import { authAndUser } from '@summerinfo/common';
@@ -33,6 +32,9 @@ router.post('/api/game/play',
         const user = await User.findOne({ username: username });
         if (!user) {
             throw new GameError(400, gameErrors.NOT_START);
+        }
+        if (user.isFinished) {
+            throw new GameError(400, gameErrors.ALREADY_FINISHED);
         }
         const currentVocabulary = user.currentVocabulary;
         const usedVocabularies = user.usedVocabularies.map((attrs) => attrs.vocabulary);
@@ -64,7 +66,7 @@ router.post('/api/game/play',
             // check if the game is completed or not
             const numberofPlay = await Game.getNumberofPlay(user.usedVocabularies);
             if (numberofPlay == 5) {
-                timer!.onTimeout(true);
+                timer!.onTimeout();
                 userTimers.delete(username);
                 return res.status(200).send('The game is completed');
             }

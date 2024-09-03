@@ -8,7 +8,7 @@ export class InitializeError extends CustomError {
         super(message);
         this.message = message;
 
-        Object.setPrototypeOf(this, InitializeError);
+        Object.setPrototypeOf(this, InitializeError.prototype);
     }
 
     serializeErrors(): { message: string; field?: string; }[] {

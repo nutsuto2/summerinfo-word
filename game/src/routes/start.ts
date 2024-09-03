@@ -36,7 +36,7 @@ router.get('/api/game/start', authAndUser, async (req: Request, res: Response) =
         userTimers.set(username, new UserTimer(username));
     } else {
         // TODO: add mechanism to deal with when user refresh page
-        // console.log(`Timer is already existed for ${username}`);
+        console.log(`Timer is already existed for ${username}`);
     }
 
     res.status(200).send({ firstVocabulary: firstVocabulary });

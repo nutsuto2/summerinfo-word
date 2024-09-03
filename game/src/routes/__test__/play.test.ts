@@ -20,14 +20,14 @@ it('returns 403 when the input length is not 5', async () => {
         .expect(403);
 });
 
-it('returns 400 when there is no current vocab or used vocab', async () => {
+it('returns 500 when there is no current vocab or used vocab', async () => {
     await request(app)
         .post('/api/game/play')
         .send({
             connectingVocabulary: 'racer'
         })
         .set('Cookie', await global.signin())
-        .expect(400);
+        .expect(500);
 });
 
 it('returns 400 when the connecting vocab is already used', async () => {
