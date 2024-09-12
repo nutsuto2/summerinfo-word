@@ -36,7 +36,7 @@
 * [X] ~~*create deployment and service for auth*~~ [2024-08-06]
 * [X] ~~*add env to auth deployment*~~ [2024-08-06]
 * [X] ~~*test auth service*~~ [2024-08-14]
-* [ ] dev word-game service
+* [ ] dev game service
 * [X] ~~*add current-word middleware*~~ [2024-08-16]
 * [X] ~~*fix current session cookies structure*~~ [2024-08-16]
 * [X] ~~*add vocabulary sub service*~~ [2024-08-16]
@@ -45,7 +45,7 @@
 * [X] ~~*find vocabulary dictionary to add to database*~~ [2024-08-16]
 * [X] ~~*move current-word middleware from common to vocab-game and rename it to current-vocab*~~ [2024-08-16]
 * [X] ~~*add start route*~~ [2024-08-16]
-* [ ] change from postgreql to mongodb
+* [X] ~~*change from postgreql to mongodb*~~ [2024-09-03]
     * [X] ~~*auth service*~~ [2024-08-27]
     * [X] ~~*game service*~~ [2024-08-27]
 * [X] ~~*add mechanism to keep track of used vocabularies*~~ [2024-08-27]
@@ -67,7 +67,9 @@
 * [X] ~~*create a database to collect user that is already played in that day*~~ [2024-09-03]
     * [ ] clear database when the timer hit 00:00:00 UTC
 * [X] ~~*add reward utils*~~ [2024-09-03]
-* [ ] create client
-* [ ] add message broker
+* [X] ~~*add message broker rabbitmq*~~ [2024-09-12]
+    * [X] ~~*validate ui*~~ [2024-09-12]
+* [ ] try to publish an event to rabbitmq
 * [X] ~~*add readiness probe to do healt check 1) http for service and 2) tcp for db*~~ [2024-08-28]
 * [ ] create a volume to store dictionary data
+* [ ] dev client

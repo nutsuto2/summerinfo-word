@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: ingress-service
   annotations:
-    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
@@ -24,3 +24,10 @@ spec:
                 name: game-svc
                 port:
                   number: 3000
+          - path: /rabbitmq/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: rabbitmq-svc
+                port:
+                  number: 15672
